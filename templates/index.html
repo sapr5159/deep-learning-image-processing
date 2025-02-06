@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing App</title>
+</head>
+<body>
+    <h1>Deep Learning Image Processing</h1>
+    <p>
+        This project is a Deep Learning Image Processing Web Application that allows users to upload images and process them using different deep learning models. The application supports:
+
+Object Detection: Identifies objects in the image and marks them with bounding boxes.
+
+Segmentation: Classifies each pixel in the image to separate different objects.
+
+Classification: Predicts the category of the uploaded image and provides confidence scores for the top predictions.
+
+The web app is built using Flask as the backend, integrates PyTorch for deep learning model inference, and leverages OpenCV for image processing.
+    </p>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Select Model Type:</label>
+        <select name="model_type">
+            <option value="Detection">Object Detection</option>
+            <option value="Segmentation">Segmentation</option>
+            <option value="Classification">Classification</option>
+        </select>
+        <br><br>
+        <label>Upload Image:</label>
+        <input type="file" name="image" accept="image/*">
+        <br><br>
+        <button type="submit">Process Image</button>
+    </form>
+
+    {% if result %}
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <!-- Original Image -->
+        <div>
+            <h3>Original Image</h3>
+            <img src="{{ image }}" width="400">
+        </div>
+
+        <!-- Processed Output -->
+        <div>
+            {% if model_type == "Classification" %}
+                <h3>Classification Results</h3>
+                <ul>
+                    {% for label, prob in result.items() %}
+                        <li>{{ label }}: {{ prob }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h3>Processed Output</h3>
+                <img src="{{ result }}" width="400">
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>
